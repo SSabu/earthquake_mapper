@@ -15,6 +15,6 @@ The Earthquake Mapper queries the USGS Earthquakes API for recent earthquakes ca
 
 [View the Earthquake Mapper here.](http://earthquake-mapper.surge.sh/)
 
-## Authors:
+## Authors
 
 * Sandeep Sabu
