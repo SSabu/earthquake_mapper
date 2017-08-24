@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+   integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+   crossorigin=""/>
+    <link rel="stylesheet" href="index.css"/>
+    <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+    integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+    crossorigin=""></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.com/libraries/d3-legend"></script>
+    <title>Leaflet and D3</title>
+  </head>
+  <body>
+
+     <div id="mapid"></div>
+
+    <div id="tooltip" class="hidden">
+      <p><strong>Earthquake Info</strong></p>
+      <p><span id="latitude">100</span></p>
+      <p><span id="longitude">100</span></p>
+      <p><span id="magnitude">100</span></p>
+      <p><span id="location">100</span></p>
+      <p><span id="time">100</span></p>
+    </div>
+
+  </body>
+  <script src="index.js"></script>
+</html>
