@@ -30,7 +30,6 @@ function projectPoint(x,y) {
   this.stream.point(point.x, point.y);
 }
 
-
 var transform = d3.geoTransform({point: projectPoint});
 var path = d3.geoPath().projection(transform);
 
@@ -56,6 +55,20 @@ var circle = g.selectAll('circle')
     return '#b30000'
   }
 })
+.attr('id', function(d) {
+  if (d.properties.mag<2.0) {
+    return 'small'
+  }
+  else if (d.properties.mag>=2.0 && d.properties.mag<4.0) {
+    return 'medium'
+  }
+  else if (d.properties.mag>=4.0 && d.properties.mag<6.0) {
+    return 'large'
+  }
+  else {
+    return 'scary'
+  }
+})
 .attr('r', function(d) {
   if (d.properties.mag<6.0) {
     return '4'
@@ -64,11 +77,12 @@ var circle = g.selectAll('circle')
     return '6'
   }
 })
-.attr('opacity', 0.85);
+.on('click', clicked);
 
 circle
   .on('mouseover', function(d) {
     selection = d3.select(this)
+                .style('cursor', 'pointer')
                 .attr('r', 15);
 
     tooltip
@@ -111,7 +125,7 @@ circle
          return '4'
        }
        else {
-         return '6'
+         return '7'
        }
      });
      tooltip.classed('hidden', true)
@@ -120,10 +134,10 @@ circle
 function update() {
 
   circle.attr("transform",
-  function(d) {
+  function(location) {
     return "translate("+
-    map.latLngToLayerPoint(d.LatLng).x+","+
-    map.latLngToLayerPoint(d.LatLng).y+")";
+    map.latLngToLayerPoint(location.LatLng).x+","+
+    map.latLngToLayerPoint(location.LatLng).y+")";
   });
 
   var bounds = path.bounds(result),
@@ -141,7 +155,6 @@ function update() {
 
   map.on('moveend', update);
   update();
-
   })
 
   function tooltip_position(left, top) {
@@ -150,16 +163,88 @@ function update() {
       .style('top', top);
   }
 
+  function clicked(location) {
+
+    var lng = location.LatLng.lng;
+    var lat = location.LatLng.lat;
+    map.setView([lat, lng], 9, {'animate': true, 'pan': { 'duration': 1}});
+  }
+
   var legend = L.control({position: 'bottomleft'});
 
-  legend.onAdd = function(map) { var div = L.DomUtil.create('div','info legend'); return div;}
+  legend.onAdd = function(map) {
+    var div = L.DomUtil.create('div','info legend');
+    div.innerHTML += '<b>Recent Earthquakes from the USGS [Strength in Magnitude]</strong</b><br>'
+    return div;}
 
   legend.addTo(map);
 
-  var legendText = '<strong>Recent Earthquakes<br>from the USGS <br>[Strength in Magnitude]</strong><br><i style="background-color:#fdcc8a;"></i>< 2.0<br><i style="background-color:#fc8d59;"></i>2.0 - 3.9<br><i style="background-color:#e34a33;"></i>4.0 - 5.9<br><is style="background-color:#b30000;"></is>>=6.0<br>';
+  var footNote = '<div class="note">*click legend icon to toggle view, click earthquake to zoom in</div>'
 
-  d3.select(".legend.leaflet-control")
-    .html(legendText);
+  var smallIcon = '<iq style="background-color:#fdcc8a;"></iq><div class="magnitude" >< 2.0</div>';
+  var medIcon = '<i style="background-color:#fc8d59;" ></i><div class="magnitude">2.0 - 3.9</div>';
+  var largeIcon = '<i style="background-color:#e34a33;"></i><div class="magnitude">4.0 - 5.9</div>';
+  var scaryIcon = '<is style="background-color:#b30000;"></is><div class="magnitude">>= 6.0</div>';
+
+  d3.select(".legend")
+    .append('text')
+    .attr('class','icon')
+    .on('mouseover', function(d) {
+      d3.select(this).style('cursor','pointer');
+    })
+    .on('click', function() {
+      var active = small.active ? false : true,
+      newOpacity = active ? 0 : 0.95;
+      d3.selectAll('#small').attr('opacity', newOpacity);
+      small.active = active;
+    })
+    .html(smallIcon);
+
+d3.select(".legend")
+    .append('text')
+    .attr('class','icon')
+    .on('mouseover', function(d) {
+      d3.select(this).style('cursor','pointer');
+    })
+    .on('click', function() {
+      var active = medium.active ? false : true,
+      newOpacity = active ? 0 : 0.95;
+      d3.selectAll('#medium').attr('opacity', newOpacity);
+      medium.active = active;
+    })
+    .html(medIcon);
+
+d3.select(".legend")
+    .append('text')
+    .attr('class','icon')
+    .on('mouseover', function(d) {
+      d3.select(this).style('cursor','pointer');
+    })
+    .on('click', function() {
+      var active = large.active ? false : true,
+      newOpacity = active ? 0 : 0.95;
+      d3.selectAll('#large').attr('opacity', newOpacity);
+      large.active = active;
+    })
+    .html(largeIcon);
+
+d3.select(".legend")
+    .append('text')
+    .attr('class','icon')
+    .on('mouseover', function(d) {
+      d3.select(this).style('cursor','pointer');
+    })
+    .on('click', function() {
+      var active = scary.active ? false : true,
+      newOpacity = active ? 0 : 0.95;
+      d3.selectAll('#scary').attr('opacity', newOpacity);
+      scary.active = active;
+    })
+    .html(scaryIcon);
+
+d3.select(".legend")
+  .append('text')
+  .html(footNote)
 
 }
 

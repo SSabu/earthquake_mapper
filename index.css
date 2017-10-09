@@ -5,7 +5,7 @@
 
 #tooltip {
         z-index: 2;
-        position:absolute;
+        position: absolute;
         width: 275px;
         padding: 10px;
         background-color: white;
@@ -13,9 +13,11 @@
         box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
         opacity: 0.8;
 }
+
 #tooltip.hidden {
         display: none;
 }
+
 #tooltip p {
         margin: 0;
         font-family: sans-serif;
@@ -25,9 +27,14 @@
 
 .legend {
           text-align: left;
-          line-height: 18px;
-          color: #000000;
+          line-height: 28px;
+          font-size: 105%;
+          height: 98px;
       }
+
+.icon {
+      display: inline-block;
+}
 
 .info {
     padding: 8px 8px;
@@ -37,27 +44,50 @@
     border-radius: 5px;
 }
 
+.magnitude {
+  margin-left: 35px;
+}
+
 .info h4 {
     margin: 0 0 5px;
     color: #777;
 }
 
 .legend i {
-    margin-top: 3px;
+    margin-top: 8px;
     width: 12px;
     height: 12px;
     float: left;
     margin-right: 8px;
     opacity: 1;
     border-radius: 50%;
-}
+    display: inline-block;
+    margin-left: 50px;
+  }
 
-.legend is {
-    margin-top: 2px;
-    width: 14px;
-    height: 14px;
+.legend iq {
+    margin-top: 8px;
+    width: 12px;
+    height: 12px;
     float: left;
     margin-right: 8px;
     opacity: 1;
     border-radius: 50%;
+    display: inline-block;
+    margin-left: 45px;
+  }
+
+.legend is {
+    margin-top: 8px;
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-right: 8px;
+    opacity: 1;
+    border-radius: 50%;
+    margin-left: 45px;
+}
+
+.note {
+  font-size: 12px;
 }
